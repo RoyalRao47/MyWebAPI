@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using MyWebAPI.Middleware;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.IdentityModel.Tokens;
-using Stripe;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
