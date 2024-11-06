@@ -22,8 +22,17 @@ namespace MyWebAPI.Models
 
     public class LoginModel
     {
-        public string UserName { get; set; }
-        public string Password { get; set; }
+        /// <summary>
+        /// User Name for login.
+        /// </summary>
+        /// <example>Amit</example>
+        public required string UserName { get; set; }
+
+        /// <summary>
+        /// Password that you saved.
+        /// </summary>
+        /// <example>dfasdfasdf</example>
+        public required string Password { get; set; }
     }
     public class PagingModel
     {

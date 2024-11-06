@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using MyWebAPI.Middleware;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.IdentityModel.Tokens;
+using System.Reflection;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -81,6 +82,11 @@ builder.Services.AddSwaggerGen(opt =>
             new string[] {}
         }
     });
+
+    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    opt.IncludeXmlComments(xmlPath);
+
 });
 
 builder.Services.AddAutoMapper(typeof(Program));
@@ -193,15 +199,25 @@ app.MapRazorPages();
 app.UseSession();
 
 app.UseSwagger();
-app.UseSwaggerUI(c =>
-{
+//app.UseSwaggerUI(c =>
+//{
 
-    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Amit Kumar Yadav");
+//    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Amit Kumar Yadav");
+//    c.RoutePrefix = "swagger";
+//	c.DocumentTitle = "My Custom API Documentation"; // Custom title for the Swagger UI
+//	c.DefaultModelsExpandDepth(-1); // Hides the models section
+//	c.DisplayRequestDuration(); // Displays the duration of requests
+//	c.EnableValidator(); // Enable request validation (optional)
+//});
+
+app.UseReDoc(c =>
+{
+    c.DocumentTitle = "REDOC API Documentation";
     c.RoutePrefix = "swagger";
-	c.DocumentTitle = "My Custom API Documentation"; // Custom title for the Swagger UI
-	c.DefaultModelsExpandDepth(-1); // Hides the models section
-	c.DisplayRequestDuration(); // Displays the duration of requests
-	c.EnableValidator(); // Enable request validation (optional)
+    c.SpecUrl = "/swagger/v1/swagger.json";
+    c.ExpandResponses("200"); // Expand 200 responses by default
+    c.RequiredPropsFirst(); // Show required properties first
+
 });
 
 app.UseHttpsRedirection();

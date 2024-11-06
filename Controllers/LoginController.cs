@@ -84,7 +84,16 @@ namespace MyWebAPI.Controllers
                 , new ClaimsPrincipal(claimsIdentity), new AuthenticationProperties());
         }
 
+        /// <summary>
+        /// token.
+        /// </summary>
+        /// <param name="UserName">The starting date to retrieve future operating hours from. Defaults to today's date.</param>
+        /// <param name="Password">The page number to retrieve.</param>
+        /// <returns>Token</returns>
         [HttpPost("token")]
+        [ProducesResponseType(typeof(List<string>), StatusCodes.Status200OK)] // 200 OK
+        [ProducesResponseType(typeof(List<string>), StatusCodes.Status400BadRequest)] // 400 Bad Request
+        [ProducesResponseType(typeof(List<string>), StatusCodes.Status404NotFound)] // 404 Not Found
         public async Task<IActionResult> GenerateToken([FromQuery] LoginModel model)
         {
             var tokenString = string.Empty;
